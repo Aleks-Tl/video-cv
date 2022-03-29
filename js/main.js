@@ -482,13 +482,6 @@ function scrollFunction() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", function (event) {
-  scrollFunction();
-});
-window.addEventListener("resize", function (event) {
-  trustingContentMove();
-  mobileTabs();
-});
 var cookies = document.querySelector('.cookies'),
     btnDecline = document.querySelector('.decline'),
     btnAccept = document.querySelector('.accept');
@@ -526,8 +519,12 @@ btnAccept.addEventListener('click', function () {
 var rangeInputs = document.querySelectorAll('input[type="range"]');
 var numberInput = document.querySelector('input[type="number"]');
 var rangeVal = document.getElementById('rangevalue');
-var rangeInput = +document.querySelector('.range_container input').value;
-rangeVal.style.left = rangeInput - 5 + '%';
+var rangeInput = document.querySelector('.range_container input');
+
+if (rangeInput) {
+  var rangeInputValue = +rangeInput.value;
+  rangeVal.style.left = rangeInputValue - 5 + '%';
+}
 
 function handleInputChange(e) {
   var target = e.target;
@@ -570,9 +567,8 @@ function trustingContentMove() {
   } else {
     rightTrustingImg.before(trustingContent);
   }
-}
+} // Tabs
 
-trustingContentMove();
 
 function Tabs() {
   var bindAll = function bindAll() {
@@ -596,7 +592,7 @@ function Tabs() {
   var change = function change(e) {
     clear();
 
-    if (e.target.classList.contains('quality__item')) {
+    if (e.target.classList.contains('quality__item') || e.target.classList.contains('tabs__item')) {
       e.target.classList.add('active');
     } else {
       e.target.parentNode.classList.add('active');
@@ -634,16 +630,74 @@ function mobileTabs() {
 }
 
 mobileTabs();
-/* let switchMonth = document.querySelector('.price__switch_month');
-let switchYear = document.querySelector('.price__switch_year');
-let switchInput = document.querySelector('#price');
 
-if (switchInput.checked) {
-  switchMonth.classList.add('active');
-} else {
-  switchMonth.classList.remove('active');
+if (trustingTitle) {
+  trustingContentMove();
 }
- */
+
+document.addEventListener("DOMContentLoaded", function (event) {
+  scrollFunction();
+});
+window.addEventListener("resize", function (event) {
+  if (trustingTitle) {
+    trustingContentMove();
+  }
+
+  mobileTabs();
+}); // Function show password
+
+function showPassword() {
+  var btnShow = document.querySelectorAll('.show-password');
+  var input = document.querySelectorAll('.show-pass');
+  btnShow.forEach(function (elem) {
+    elem.addEventListener('click', function () {
+      input.forEach(function (element) {
+        if (element.getAttribute('type') === 'password') {
+          element.setAttribute('type', 'text');
+        } else {
+          element.setAttribute('type', 'password');
+        }
+      });
+    });
+  });
+}
+
+showPassword(); // Validation
+
+function valideForms(form) {
+  $(form).validate({
+    rules: {
+      name: {
+        required: true,
+        minlength: 2
+      },
+      company: "required",
+      pass: "required",
+      phone: "required",
+      email: {
+        required: true,
+        email: true
+      }
+    }
+    /* messages: {
+      name: {
+        required: "Fill in this field",
+      },
+      pass: "Fill in this field",
+      email: {
+        required: "Fill in this field",
+        email: "You entered your email incorrectly"
+      }
+    } */
+
+  });
+}
+
+;
+valideForms('#form-one');
+valideForms('#form-two');
+valideForms('#form-three');
+valideForms('#forgot');
 })();
 
 /******/ })()
