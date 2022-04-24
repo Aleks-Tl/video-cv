@@ -616,11 +616,11 @@ function mobileTabs() {
     for (var i = 0; i < tabContent.length; i++) {
       var id = tabContent[i].getAttribute('id');
 
-      var _tab = document.querySelector("[data-tab=\"".concat(id, "\"]"));
+      var _tab = document.querySelector("[data-tab=\"jQuery{id}\"]");
 
       _tab.after(tabContent[i]);
 
-      console.log(document.querySelector("[data-tab=\"".concat(id, "\"]")));
+      console.log(document.querySelector("[data-tab=\"jQuery{id}\"]"));
     }
   } else {
     for (var _i = 0; _i < tabContent.length; _i++) {
@@ -665,7 +665,7 @@ function showPassword() {
 showPassword(); // Validation
 
 function valideForms(form) {
-  $(form).validate({
+  jQuery(form).validate({
     rules: {
       name: {
         required: true,
@@ -698,7 +698,91 @@ valideForms('#form-one');
 valideForms('#form-two');
 valideForms('#form-three');
 valideForms('#form-four');
-valideForms('#forgot');
+valideForms('#forgot'); // graph
+
+var graphVals = jQuery('#rangevalue').text();
+var data = [{
+  '': Math.round(graphVals)
+}, {
+  '': Math.round(graphVals - 10)
+}, {
+  '': Math.round(graphVals * 0.2)
+}, {
+  '': Math.round(graphVals * 0.4)
+}];
+var bar_ctx = document.getElementById('graphCanvas').getContext('2d');
+var background_1 = bar_ctx.createLinearGradient(0, 0, 0, 350);
+background_1.addColorStop(0, '#4C00A6');
+background_1.addColorStop(1, '#7500FE');
+var background_2 = bar_ctx.createLinearGradient(0, 0, 0, 350);
+background_2.addColorStop(0, '#4C00A6');
+background_2.addColorStop(1, '#7500FE');
+var background_3 = bar_ctx.createLinearGradient(0, 0, 0, 350);
+background_3.addColorStop(0, '#00C08D');
+background_3.addColorStop(1, '#11E9B0');
+var background_4 = bar_ctx.createLinearGradient(0, 0, 0, 350);
+background_4.addColorStop(0, '#00C08D');
+background_4.addColorStop(1, '#11E9B0');
+var barcolor = [background_1, background_2, background_3, background_4];
+var graph = {
+  barId: 'graphCanvas',
+  // Need To pass canvas id  and mandatory to generate the bar graph
+  barData: data,
+  // Bar data in the form of array of object and mandatory to pass atleast 1 value
+  barColour: barcolor,
+  // Bar colour as array and the default value is '#020202'
+  barStroke: 40,
+  // Bar Stroke as per your requirement and the default value is 50
+  barSpaces: 50,
+  // Space between 2 bar graph and the default value is 80
+  barInnerPadding: 50,
+  // Padding inside all side of the canvas and the default value is 80
+  barDivisionPositionFromLineX: 20,
+  // X-Axis division position from left side of the bar graph and the deafult value is 20
+  barDivisionPositionFromLineY: 20,
+  // Y-Axis division position from bottom side of the bar graph and the deafult value is 20
+  barAnimation: true,
+  // Used to define the animation from the bottom to top position and the default value is true
+  barAnimationSpeed: 1,
+  // Define the animation spedd of the graph and the default value is 1
+  barTextFont: "16px Poppins",
+  // Define font size with font family name and the default value is 14px Arial
+  barDivision: 5,
+  // Define the division to the Y-Axis and the default value is 5
+  barScaleDivisionReqX: true,
+  // Define the scale division marking to the X-Axis and the default value is true
+  barScaleDivisionReqY: true,
+  // Define the scale division marking to the Y-Axis and the default value is true
+  barScaleDivisionY: 20,
+  // Define the manually setup the Y-Axis division upto the highest value of your array default value is null
+  barScaleDivisionStroke: 1,
+  //Define the stroke of scale division and the default value is 1
+  barScaleDivisionColour: '#333',
+  //Define the stroke colour of the scale division and the default value is #333
+  barAxisLineStroke: 2,
+  //Define the stroke of the X & Y-Axis line and the default value is 1
+  barAxisLineColour: '#333',
+  //Define the stroke colour of the X & Y-axis line and the default value is #333
+  barMaxHeight: 100 // Define the maximum height of the Y-Axis line of the bar graph and the default value is null
+
+};
+generateBarGraph(graph);
+var inpVal = jQuery('.range_container input');
+inpVal.on('change', function () {
+  graphVals = +jQuery('#rangevalue').text();
+  graph.barData = [{
+    '': graphVals
+  }, {
+    '': graphVals - 10
+  }, {
+    '': Math.round(graphVals * 0.2)
+  }, {
+    '': Math.round(graphVals * 0.4)
+  }];
+  jQuery('#graphCanvas').remove();
+  jQuery('.canvas_wrap').append('<canvas id="graphCanvas" width="350" height="350"></canvas>');
+  generateBarGraph(graph);
+}); // graph
 })();
 
 /******/ })()

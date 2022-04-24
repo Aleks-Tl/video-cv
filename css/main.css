@@ -1149,8 +1149,7 @@ ul {
   background: var(--colorWhite);
   border: 5px solid var(--colorGreen);
   cursor: pointer;
-  -webkit-box-shadow: 0 0 2px 0 #555;
-  box-shadow: 0 0 2px 0 #555;
+  outline: 3px solid var(--colorGreen);
   -webkit-transition: background 0.3s ease-in-out;
   transition: background 0.3s ease-in-out;
 }
@@ -3683,8 +3682,7 @@ ul {
 }
 .autorisation__form label {
   display: block;
-  -moz-text-align-last: left;
-  text-align-last: left;
+  text-align: left;
   line-height: 24px;
   margin-bottom: 15px;
 }
@@ -3701,6 +3699,7 @@ ul {
   margin-bottom: 10px;
   background: transparent;
   font-size: 16px;
+  border-radius: 0;
   /* &:focus {
     background-color: rgba(#14efb5, 0.1);
   } */
